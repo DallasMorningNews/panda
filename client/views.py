@@ -67,7 +67,7 @@ def dashboard(request):
     today = now().date()
     thirty_days_ago = today - datetime.timedelta(days=30)
 
-    active_users = list(UserProxy.objects.raw('SELECT auth_user.*, count(panda_activitylog.id) AS activity_logs__count FROM auth_user LEFT JOIN panda_activitylog ON panda_activitylog.user_id = auth_user.id WHERE auth_user.is_active = True AND panda_activitylog.when > %s GROUP BY auth_user.id ORDER BY activity_logs__count DESC, auth_user.id ASC', [thirty_days_ago]))
+    active_users = list(UserProxy.objects.raw('SELECT auth_user.*, count(panda_activitylog.id) AS activity_logs__count FROM auth_user LEFT JOIN panda_activitylog ON panda_activitylog.user_id = auth_user.id WHERE auth_user.is_active = True AND panda_activitylog.when > %s GROUP BY auth_user.is_superuser, auth_user.id, auth_user.username, auth_user.email, auth_user.first_name, auth_user.last_name, auth_user.password, auth_user.is_staff, auth_user.is_active, auth_user.last_login, auth_user.date_joined ORDER BY activity_logs__count DESC, auth_user.id ASC', [thirty_days_ago]))
 
     most_active_users = active_users[:10]
 
