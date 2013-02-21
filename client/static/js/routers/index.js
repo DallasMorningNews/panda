@@ -39,7 +39,7 @@ PANDA.routers.Index = Backbone.Router.extend({
          * https://github.com/documentcloud/backbone/pull/1156
          * https://github.com/documentcloud/backbone/pull/1219
          */
-        if ($.browser.mozilla) {
+        if ($.browser.mozilla && param) {
             return param.replace("%20", " ");
         } else {
             return param;
